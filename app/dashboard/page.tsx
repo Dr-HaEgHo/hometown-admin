@@ -1,4 +1,6 @@
+import Chart from '@/components/Chart'
 import NotificationCard from '@/components/NotificationCard'
+
 import Image from 'next/image'
 import React from 'react'
 
@@ -17,6 +19,7 @@ const notifications = [
   { id: 5, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
   { id: 6, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
 ]
+
 
 
 const AnalyticsCard = ({item} : {item:any}) => {
@@ -94,7 +97,7 @@ const page = () => {
 
               {/* CHART  */}
               <div className="w-[57%] aspect-square flex items-center justify-center">
-                
+                <Chart />
               </div>
 
             </div>
