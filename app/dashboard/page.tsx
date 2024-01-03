@@ -1,0 +1,126 @@
+import NotificationCard from '@/components/NotificationCard'
+import Image from 'next/image'
+import React from 'react'
+
+const data = [
+  { id: 1, title: "Farmers", population: 1209, color: "rgba(253, 240, 176, 0.6)", icons: require('../../assets/icons/farmerbox.png') },
+  { id: 2, title: "Buyers (Off-takers)", population: 6500, color: "#D7FFE9", icons: require('../../assets/icons/buyerbox.png') },
+  { id: 3, title: "Input Dealers ", population: 894, color: "#FFD0E5", icons: require('../../assets/icons/inputdealerbox.png') },
+  { id: 4, title: "Incubatees", population: 300, color: "#C6E7F9", icons: require('../../assets/icons/incubateesbox.png') },
+]
+
+const notifications = [
+  { id: 1, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
+  { id: 2, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
+  { id: 3, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
+  { id: 4, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
+  { id: 5, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
+  { id: 6, title: '24 Pending Requests', desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval", time:"2 hours ago", icon: "",},
+]
+
+
+const AnalyticsCard = ({item} : {item:any}) => {
+  return(
+    <div className={`w-[25%] aspect-square rounded-[10px] shadow flex flex-col items-center justify-center`} style={{
+      backgroundColor: item.color
+    }} >
+
+      {/* ICON */}
+      <div className='w-[28%] aspect-square flex items-center justify-center shadow rounded-full mb-2' >
+        <Image
+          src={item.icons }
+          alt="hometownadmin.com"
+          className='w-[40%]'
+        />
+      </div>
+      <p className='text-[10px] 2xl:text-xs text-primary' >{item.title}</p>
+      <span className='text-[30px] 2xl:text-xs text-primary font-semibold'>
+        {
+          new Intl.NumberFormat("NG", {
+          }).format(item?.population)
+        }
+      </span>
+    </div>
+  )
+}
+
+const page = () => {
+  return (
+    <div className='w-full py-[20px]' >
+      <div className="dash-container">
+        <div className="w-full flex items-start justify-between relative">
+
+          {/* ANALYTICS */}
+          <div className='w-[63%] sticky top-0' >
+
+            {/* ANALYTICS BOXES */}
+            <div className="w-full flex items-center gap-2 mb-5">
+              {
+                data?.map((item) => (
+                  <AnalyticsCard key={item.id} item={item} />
+                ))
+              }
+            </div>
+
+
+            {/* CHARTS */}
+
+            <div className="w-full flex items-stretch bg-white rounded-2xl p-6 ">
+
+              {/* KEYS  */}
+              <div className="w-[43%] flex flex-col items-start justify-between">
+
+                {/* TOP */}
+                <div className='w-full' >
+                  <h4 className='text-head text-[18px] 2xl:text-[20px] font-semibold' >Chart per %</h4>
+                  <div className='w-full flex items-center gap-4' >
+                    <div className='w-2 h-2 rounded full bg-chartBlue'/>
+                    <p className='text-head text-sm 2xl:text-base font-medium' >Products</p>
+                  </div>
+                  <div className='w-full flex items-center gap-4' >
+                    <div className='w-2 h-2 rounded full bg-chartGreen'/>
+                    <p className='text-head text-sm 2xl:text-base font-medium' >Services</p>
+                  </div>
+                </div>
+
+
+                {/* BOTTOM */}
+                <div>
+                  <p className='text-head text-xs'>In the past 1 month, products have been ordered more than services</p>
+                </div>
+
+              </div>
+
+
+              {/* CHART  */}
+              <div className="w-[57%] aspect-square flex items-center justify-center">
+                
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          {/* NOTIFICATIONS */}
+          <div className='w-[34%]'>
+
+            <div className='bg-white rounded-2xl p-3 2xl:p-4'>
+              <h2 className='text-base text-head font-semibold'>Notifications</h2>
+              {
+                notifications.map((item) => (
+                  <NotificationCard key={item.id} item={item} />
+                ))
+              }
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default page;
