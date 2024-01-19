@@ -7,12 +7,16 @@ import { Icon } from '@iconify/react';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Prompt from './Prompt';
+import { useAppDispatch } from '@/store/hooks';
+import { logout } from '@/store/auth/authSlice';
 
 const Sidebar = () => {
 
     const location = usePathname();
     const router = useRouter();
     const param = useParams();
+    const dispatch = useAppDispatch()
+
 
     
     const [onlineStatus, setOnlineStatus] = useState("online");
@@ -25,6 +29,7 @@ const Sidebar = () => {
     ]
 
     const handleLogout = () => {
+        dispatch(logout())
         router.push('/login')
     }
 

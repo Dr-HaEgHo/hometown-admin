@@ -1,0 +1,1 @@
+export const baseUrl: string = 'https://urchin-app-a479b.ondigitalocean.app/accounts'

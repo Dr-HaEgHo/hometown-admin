@@ -2,63 +2,59 @@
 import Input, { PasswordInput } from '@/components/Input'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+
+const roles = ['Farmers', 'Buyers', 'Agents', 'Input Dealers']
 
 export default function Home() {
 
+  const [content, setContent]: [count: string, setCount: Function] = useState('Farmers');
+  const [count, setCount]: [count: number, setCount: Function] = useState(0);
+ 
   const router = useRouter()
 
-  const submitHandler = (e: React.FormEvent) => {
 
-    router.push('/dashboard')
-    e.preventDefault();
-  }
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCount((prevCount: number) => prevCount + 1);
+          
+    }, 1000);
+
+    // Cleanup the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array ensures that the effect runs only once on mount
+
+
+  useEffect(() => {
+    if (count === roles.length) {
+      setCount(0)
+    }
+
+    setContent(roles[count])
+   },[count])
+  
+  
+  useEffect(() => {
+    setTimeout(() => { 
+      router.push('/login')
+    },5000)
+   },[])
 
   return (
-    <main className="w-full h-screen bg-primary flex items-center ">
-      <div className="w-1/2 h-full bg-primary1 overflow-hidden login-bg">
-        {/* <Image
-          src={require('../assets/images/login.png') }        
-          alt='hometown-admin.com'
-          style={{
-            width: "100%",
-            
-          }}
-        /> */}
-      </div>
-      <div className="w-1/2 h-full bg-white">
-        <div className="w-full h-full flex flex-col items-center justify-center gap-[1rem] ">
+    <main className="w-full h-screen flex items-center justify-center ">
+      <div className='flex flex-col items-center justify-center' >
 
+        <div className='h-[90px] w-[90px] flex items-center justify-center' >
+          <Image
+            src={require('../assets/images/logo.png')}
+            alt='hometown-admin.com'
+            className='spinning-logo'
+          />
+        </div>
 
-
-
-          {/* LOGO MARK */}
-          <div className='w-[8%]' >
-            <Image
-              src={require('../assets/images/logoandtext.png')}
-              alt='hometown-admin.com'
-              style={{
-                width: "100%",
-              }}
-            />
-          </div>
-
-
-
-          {/* FORM */}
-          <div className='w-[80%] max-w-[542px] mx-auto shadow-lg p-[40px] 2xl:p-[60px] rounded ' >
-
-            <h2 className='text-lg 2xl:text-2xl font-semibold text-head' >Login to your account</h2>
-            <p className='text-xs 2xl:text-sm my-[1rem] font-normal text-input' >Enter your email address and password to continue</p>
-            <form className='flex flex-col gap-4' >
-              <Input type='email' label="Email" placeholder='Please enter your email' />
-              <PasswordInput label="Password" placeholder='Please enter your email' />
-              <button type='submit' onClick={submitHandler} className="buttons">Log in</button>
-            </form>
-
-            <p className='mt-[1rem] text-xs 2xl:text-sm text-80% font-semibold'>Trouble signing in?  <span className='text-primary1 cursor-pointer hover:underline '>contact support</span></p>
-          </div>
-
+        <div className='w-[120px] h-[30px] relative overflow-hidden' >
+          <p className='swipe-right font-semibold' > {content }</p>
         </div>
       </div>
     </main>

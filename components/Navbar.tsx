@@ -8,6 +8,7 @@ const Navbar = () => {
 
     const [isNotification, setIsNotifications] = useState(true)
     const location = usePathname();
+    
     const params = useParams();
 
   return (

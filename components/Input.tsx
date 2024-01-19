@@ -1,12 +1,18 @@
+'use client'
 import { dropDownProps, emailInputProps, pwInputProps } from '@/types/types'
 import { ArrowDown2, ArrowUp2, Eye, EyeSlash } from 'iconsax-react';
 import React, { FC, useReducer, useRef, useState } from 'react'
 
 const Input: FC<emailInputProps> = (props) => {
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        props.setValue(e.target.value)
+    }
+
   return (
       <div className='input-wrap' >
           <label className='labels'>{props.label && props.label}</label>
-          <input type="email" className='inputs' placeholder={props.placeholder && props.placeholder} />
+          <input onChange={handleInputChange} type="email" className='inputs' placeholder={props.placeholder && props.placeholder} />
       </div>
   )
 }
@@ -31,11 +37,16 @@ export const PasswordInput: FC<pwInputProps> = (props) => {
         setIsOpen(prev => prev = !prev)
     }
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        props.setValue(e.target.value)
+    }
+
+
     return (
         <div className='input-wrap' >
             <label className='labels'>{props.label && props.label}</label>
             <div className='password-input' >
-                <input className='inputs  ' type={isOpen === true ? "text" : "password" } placeholder={props.placeholder && props.placeholder} />
+                <input className='inputs  ' type={isOpen === true ? "text" : "password" } onChange={handleInputChange} placeholder={props.placeholder && props.placeholder} />
                 <div onClick={handleClick} className='absolute cursor-pointer right-[10px] top-1/2 transform -translate-y-1/2 flex items-center justify-center text-icons'>
                     {
                         isOpen === true ? (<EyeSlash variant="Bold" size="20" />) : (<Eye variant="Bold" size="20" />)

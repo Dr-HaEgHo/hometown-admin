@@ -2,12 +2,14 @@
 export interface emailInputProps {
     label: string,
     placeholder: string,
-    type: string
+    type: string,
+    setValue: Function,
 }
 
 export interface pwInputProps {
     label: string,
     placeholder: string,
+    setValue: Function,
 }
 
 export interface dropDownProps {
@@ -16,7 +18,7 @@ export interface dropDownProps {
     type: string,
     data: {
         id: number,
-        name: string
+        name: string,
     }[]
 }
 
@@ -33,4 +35,9 @@ export interface incubateeData{
     status: string,
     date: string,
     time: string
+}
+
+export interface loginDetails{
+    request: string,
+    access: string
 }

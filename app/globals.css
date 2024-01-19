@@ -57,7 +57,7 @@ body {
 }
 
 .inputs{
-  @apply text-xs 2xl:text-sm rounded w-full border border-border bg-none p-2 py-[10px] focus:outline-none focus:border-[1px] focus:border-primary1 autofill:bg-none
+  @apply text-xs 2xl:text-sm rounded w-full border border-border bg-none p-2 py-[10px] focus:outline-none focus:border-[1px] focus:border-primary1 invalid:border-[1px] invalid:border-error2 autofill:bg-none
 }
 .inputsfade{
   @apply text-xs 2xl:text-sm rounded w-full border-0 border-border bg-dashboardBg p-2 py-[10px] focus:outline-none focus:border-[1px] focus:border-someBorderGray autofill:bg-none
@@ -68,7 +68,7 @@ body {
 }
 
 .buttons {
-  @apply w-full text-xs font-semibold bg-primary1 text-white p-[12px] rounded mt-[1rem]
+  @apply w-full text-xs font-semibold bg-primary1 text-white p-[12px] rounded mt-[1rem] disabled:bg-someGray
 }
 
 .buttons-2 {
@@ -157,6 +157,21 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.swipe-right{
+  position: absolute;
+  color: #00692B;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  animation: text-swipe .3s ease-in-out;
+}
+
+.spinning-logo{
+  width: 100%;
+  animation: logo-spin 6s linear infinite;
+}
+
 @keyframes fadeIn {
   from{
     opacity: 0;
@@ -172,5 +187,23 @@ body {
   }
   to{
     top: 50%
+  }
+}
+
+@keyframes logo-spin{
+  from{
+    transform: rotateZ(0deg);
+  }
+  to{
+    transform: rotateZ(359deg);
+  }
+}
+
+@keyframes text-swipe{
+  from{
+    transform: translateX(-50%);
+  }
+  to{
+    transform: transLateX(100%);
   }
 }
