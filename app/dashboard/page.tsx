@@ -5,7 +5,7 @@ import { clearLoginSuccess } from '@/store/auth/authSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import Loading from '../loading'
 import { getDashCounts } from '@/store/dashboard/dashActions'
@@ -76,13 +76,28 @@ const AnalyticsCard = ({ item }: { item: any }) => {
   )
 }
 
-const page = () => {
+const Page = () => {
+
+  // const router = useRouter()
+
+  // const token = useAppSelector((state) => state.auth.accesstoken)
+
+  // useEffect(() => {
+  //   if (token !== "") {
+  //     router.push('/dashboard')
+  //   } 
+  // }, [])
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  const handleGetDashCounts = () => {
     dispatch(getDashCounts());
+  }
+
+  useEffect(() => {
+    handleGetDashCounts();
   }, [])
+
 
   return (
     <div className='w-full py-[20px]' >
@@ -162,4 +177,4 @@ const page = () => {
   )
 }
 
-export default page;
+export default Page;

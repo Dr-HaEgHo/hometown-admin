@@ -7,11 +7,12 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-export default function Home() {
+export default function Page() {
 
     const router = useRouter()
     const dispatch = useAppDispatch()
     const isLoading = useAppSelector(state => state.auth.loading)
+    const token = useAppSelector(state => state.auth.accesstoken)
     const loginSuccess = useAppSelector(state => state.auth.loginSuccess)
 
     
@@ -41,7 +42,7 @@ export default function Home() {
         if (
             email !== "" &&
             isValidEmail !== false && 
-            password !== ""
+            password !== "" || loading === false
         ) {
             setFormButtonDisabled(false)
         }else {
@@ -50,11 +51,14 @@ export default function Home() {
 
     }, [email, isValidEmail, password])
     
+
     useEffect(() => {
-        if (loginSuccess === true) {
+        if (token !== "") {
             router.push('/dashboard')
+        } else {
+            router.push('/login')
         }
-    }, [loginSuccess])
+    }, [token])
     
 
     useEffect(() => {

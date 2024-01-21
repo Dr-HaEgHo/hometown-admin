@@ -1,6 +1,6 @@
 'use client'
-import { dropDownProps, emailInputProps, pwInputProps } from '@/types/types'
-import { ArrowDown2, ArrowUp2, Eye, EyeSlash } from 'iconsax-react';
+import { dropDownProps, emailInputProps, fileUploadProps, pwInputProps } from '@/types/types'
+import { ArrowDown2, ArrowUp2, DocumentDownload, Eye, EyeSlash } from 'iconsax-react';
 import React, { FC, useReducer, useRef, useState } from 'react'
 
 const Input: FC<emailInputProps> = (props) => {
@@ -20,10 +20,15 @@ export default Input;
 
 
 export const InputFade: FC<emailInputProps> = (props) => {
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        props.setValue(e.target.value)
+    }
+
   return (
       <div className='input-wrap' >
           <label className='labels'>{props.label && props.label}</label>
-          <input type={ props?.type } className='inputsfade' placeholder={props.placeholder && props.placeholder} />
+          <input onChange={handleInputChange} type={ props?.type } className='inputsfade' placeholder={props.placeholder && props.placeholder} />
       </div>
   )
 }
@@ -120,6 +125,7 @@ export const DropDownFade: FC<dropDownProps> = (props) => {
 
     const handleDropItem = (name:string | undefined) => {
         setValue(name);
+        props.setValue(name)
         setIsOpen(prev => prev = !prev);
     }
 
@@ -147,6 +153,35 @@ export const DropDownFade: FC<dropDownProps> = (props) => {
                     
                     <div className='w-full h-[2rem]' />
                 </div>
+            </div>
+        </div>
+    )
+}
+
+
+export const FileUpload: FC<fileUploadProps> = (props) => {
+    return (
+        <div className='input-wrap' >
+            <label className='labels'>{props.label && props.label}</label>
+            <div className='w-full h-20 rounded bg-dashboardBg hover:opacity-90 active:opacity-100 transition duration-300' >
+                <div className='w-full h-full flex items-center justify-center flex-col gap-1' >
+                    <DocumentDownload size="26" className='text-someGray' variant='Bold' />
+                    <p className='text-someGray text-[10px] text-center' >Click or Drag to upload</p>
+                </div>
+                <input
+                    className='inputsfade '
+                    type="file"
+                    style={{
+                        position: "absolute",
+                        top: "0px",
+                        left: "0px",
+                        width: "100%",
+                        height: "100%",
+                        background: "skyblue" ,
+                        opacity: "0",
+                        cursor: "pointer",
+                    }}
+                />
             </div>
         </div>
     )

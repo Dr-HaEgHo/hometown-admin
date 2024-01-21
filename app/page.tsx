@@ -1,5 +1,6 @@
 'use client'
 import Input, { PasswordInput } from '@/components/Input'
+import { useAppSelector } from '@/store/hooks'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -13,7 +14,6 @@ export default function Home() {
   const [count, setCount]: [count: number, setCount: Function] = useState(0);
  
   const router = useRouter()
-
 
   useEffect(() => {
     const intervalId = setInterval(() => {

@@ -8,7 +8,7 @@ import axios from "axios";
 // ================================================================= AUTHENTICATE ADMIN USER
 export const authenticateAdminUser = createAsyncThunk(
     "authenticateAdminUser",
-    async ({ email, password }: { email: string, password: string }, { rejectWithValue, getState }) => {
+    async ({ email, password }: { email: string, password: string }, { rejectWithValue, getState, dispatch }) => {
         try {
             const res = await axios.post(`${baseUrl}/admin/login/`, {
                 email, password
@@ -20,7 +20,6 @@ export const authenticateAdminUser = createAsyncThunk(
                 }
             );
             if (res.status === 200 || res.status === 201) {
-                
                 return res;
             }
         } catch (err: any) {

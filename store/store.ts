@@ -1,14 +1,50 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import authReducer from './auth/authSlice';
 import dashReducer from './dashboard/dashSlice';
+import incuReducer  from './incubatees/incuSlice';
+import userReducer from './users/userSlice';
+import { persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage';
 
-export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        dash: dashReducer,
-    }
+const persistConfig = {
+    key: 'root',
+    storage
+}
+
+
+
+const appReducer = combineReducers({
+    auth: authReducer,
+    dash: dashReducer,
+    incubatees: incuReducer,
+    user: userReducer
 })
 
-export type RootState = ReturnType<typeof store.getState>;
 
+const rootReducer = (state: any, action: any) => {
+    if (action.type === "auth/logout") {
+        state = undefined;
+    }
+    return appReducer(state, action);
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+
+export const store = configureStore({
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) => 
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+            }
+        })
+    })
+    
+// CREATE THE PERSISTOR OBJECT
+
+export const persistor = persistStore(store)
+
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+

@@ -1,10 +1,10 @@
 'use client'
-import { DropDownFade, InputFade } from '@/components/Input'
+import { DropDownFade, FileUpload, InputFade } from '@/components/Input'
 import SoftTable from '@/components/SoftTable'
 import { AddSquare, CloseSquare } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const states = [
@@ -45,7 +45,23 @@ const roles = [
     {id: 5, name: "Agent"},
 ]
 
-const page = () => {
+const Page = () => {
+
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState(0)
+    const [state, setState] = useState("")
+    const [lga, setLga] = useState("")
+    const [role, setRole] = useState("")
+
+    useEffect(() => { 
+        console.log(name, "name")
+        console.log(email, "email")
+        console.log(phone, "phone")
+        console.log(state, "state")
+        console.log(lga, "lga")
+        console.log(role, "role")
+    }, [name, email, phone, state, lga, role])
 
     return (
         <div className="w-full">
@@ -61,12 +77,13 @@ const page = () => {
                     {/* FORM AND BUTTON */}
                     <div className='w-full ' >
                         <form className=' w-full flex items-start flex-col gap-4 '>
-                            <InputFade type='text' label='Name' placeholder='Please Enter Your Name' />
-                            <InputFade type='email' label='Email Address' placeholder='Please Enter Your Email' />
-                            <InputFade type='number' label='Phone Number' placeholder='Please Enter Your Phone Number' />
-                            <DropDownFade type='text' data={states} label='State' placeholder='Please Select State' />
-                            <DropDownFade type='text' data={local} label='Local Government Area' placeholder='Please Select LGA' />
-                            <DropDownFade type='text' data={roles} label='Role' placeholder='Please Select Your Role' />
+                            <InputFade setValue={setName} type='text' label='Name' placeholder='Please Enter Your Name' />
+                            <InputFade setValue={setEmail} type='email' label='Email Address' placeholder='Please Enter Your Email' />
+                            <InputFade setValue={setPhone} type='number' label='Phone Number' placeholder='Please Enter Your Phone Number' />
+                            <DropDownFade setValue={setState} type='text' data={states} label='State' placeholder='Please Select State' />
+                            <DropDownFade setValue={setLga} type='text' data={local} label='Local Government Area' placeholder='Please Select LGA' />
+                            <DropDownFade setValue={setRole} type='text' data={roles} label='Role' placeholder='Please Select Your Role' />
+                            <FileUpload label="Upload Photo" />
                             <button className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-8'>
                                 <p className='text-white text-xs 2xl:text-sm ' >Add New</p>
                             </button>
@@ -81,4 +98,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

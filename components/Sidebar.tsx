@@ -2,12 +2,12 @@
 
 import { Logout, MenuBoard, People, Profile } from 'iconsax-react'
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { useParams, usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Prompt from './Prompt';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/auth/authSlice';
 
 const Sidebar = () => {
@@ -17,6 +17,8 @@ const Sidebar = () => {
     const param = useParams();
     const dispatch = useAppDispatch()
 
+
+    const token = useAppSelector(state => state.auth.accesstoken)
 
     
     const [onlineStatus, setOnlineStatus] = useState("online");
@@ -37,6 +39,11 @@ const Sidebar = () => {
         setLogoutOpen((prev: boolean) => prev = !prev)
     }
 
+    // useEffect(() => {
+    //     if (token === "") {
+    //         router.push('/login')
+    //     }
+    // }, [token])
 
     return (
         <div className='w-full h-full border-sidebarDiv border-r-[0.2px] bg-white ' >

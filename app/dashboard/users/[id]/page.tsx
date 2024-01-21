@@ -1,11 +1,30 @@
+'use client'
 import Table from '@/components/Table'
+import TableShimmerLoader from '@/components/TableShimmerLoader'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { getUserById } from '@/store/users/userActions'
 import { AddSquare, ArrowLeft, DocumentDownload, EthereumClassic } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { useParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 
-const page = () => {
+const Page = () => {
+
+    const params = useParams()
+    const dispatch = useAppDispatch()
+    const user = useAppSelector((state) => state.user.singleUser)
+
+    const [loading, setLoading] = useState(false)
+
+
+    console.log(params.id, "the params id")
+
+    useEffect(() => {
+        dispatch(getUserById({ userId: params.id.toString() }))
+    }, [])
+
 
     return (
         <div className='w-full py-[20px]' >
@@ -22,7 +41,7 @@ const page = () => {
                                 <p className='text-smallHeadTxt text-xs 2xl:text-sm ' >back</p>
                             </div></Link>
                             <div className='flex items-center gap-4' >
-                                <h2 className='text-bigHeadTxt font-bold text-sm 2xl:text-base '>Akpan Mariam</h2>
+                                <h2 className='text-bigHeadTxt font-bold text-sm 2xl:text-base '></h2>
                                 <div className='bg-incuTxt rounded-full px-2 py-[1px]' >
                                     <p className='text-xs 2xl:text-sm text-head' >Farmer</p>
                                 </div>
@@ -59,31 +78,79 @@ const page = () => {
 
 
                     {/* FORM */}
-                    <div className='w-[54%] max-w-[548px] bg-white border-lg rounded-lg p-3 flex flex-col gap-4' >
-                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
-                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >First Name</h5>
-                            <p className='text-someGray text-xs 2xl:text-sm' >John</p>
-                        </div>
-                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
-                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Last Name</h5>
-                            <p className='text-someGray text-xs 2xl:text-sm' >Doe</p>
-                        </div>
-                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
-                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Email Address</h5>
-                            <p className='text-someGray text-xs 2xl:text-sm' >John_doe@gmail.com</p>
-                        </div>
-                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
-                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Phone Number</h5>
-                            <p className='text-someGray text-xs 2xl:text-sm' >+234 812 345 6789</p>
-                        </div>
-                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
-                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >State</h5>
-                            <p className='text-someGray text-xs 2xl:text-sm' >Delta State</p>
-                        </div>
-                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
-                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Local Government</h5>
-                            <p className='text-someGray text-xs 2xl:text-sm' >Bomadi LG</p>
-                        </div>
+                    <div className='w-[54%] max-w-[548px] bg-white rounded-lg p-3 ' >
+                        {
+                            loading === true ?
+
+
+                                (<TableShimmerLoader />)
+
+                                :
+
+
+                                user && user.id ?
+
+
+                                    (<div className='w-full flex flex-col gap-4' >
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >First Name</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{user.first_name}</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Last Name</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{user.last_name}</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Email Address</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{user.email}</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Phone Number</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{user.phone}</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >State</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{user.state} State</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Local Government</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{user.local_govt}</p>
+                                        </div>
+                                    </div>
+                                    )
+
+
+                                    :
+
+
+
+                                    (<div className='w-full flex flex-col gap-4' >
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >First Name</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >waiting...</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Last Name</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >waiting...</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Email Address</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >waiting...</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Phone Number</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >waiting...</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >State</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >waiting...</p>
+                                        </div>
+                                        <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
+                                            <h5 className='text-sm 2xl:text-base font-semibold text-head' >Local Government</h5>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >waiting...</p>
+                                        </div>
+                                    </div>)
+                        }
                     </div>
 
 
@@ -93,4 +160,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

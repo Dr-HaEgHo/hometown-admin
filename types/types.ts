@@ -19,7 +19,8 @@ export interface dropDownProps {
     data: {
         id: number,
         name: string,
-    }[]
+    }[],
+    setValue: Function
 }
 
 export interface sidebarLink {
@@ -40,4 +41,8 @@ export interface incubateeData{
 export interface loginDetails{
     request: string,
     access: string
+}
+
+export interface fileUploadProps{
+    label: string
 }

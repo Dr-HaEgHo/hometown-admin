@@ -1,19 +1,43 @@
+'use client'
 import Table from '@/components/Table'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { getAllIncubatees } from '@/store/incubatees/incuActions'
 import { AddSquare } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const incuees = [
-    { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
-    { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Inactive", date: "12 July 2023", time: "2:30 am" },
-    { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
-    { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
-    { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Inactive", date: "12 July 2023", time: "2:30 am" },
-    { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
-]
+// const incuees = [
+//     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
+//     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Inactive", date: "12 July 2023", time: "2:30 am" },
+//     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
+//     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
+//     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Inactive", date: "12 July 2023", time: "2:30 am" },
+//     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, status: "Active", date: "12 July 2023", time: "2:30 am" },
+// ]
 
-const page = () => {
+const Page = () => {
+
+    const dispatch = useAppDispatch();
+
+    const [loading, setLoading] = useState(false)
+
+
+    const incubatees = useAppSelector((state)=> state.incubatees.incubatees)
+    const isLoading = useAppSelector((state)=> state.incubatees.loading)
+
+    useEffect(() => {
+        dispatch(getAllIncubatees())
+    }, [])
+
+    useEffect(() => {
+        if (isLoading === true) {
+            setLoading(true)
+        } else {
+            setLoading(false)
+        }
+     },[isLoading])
+    
 
     return (
         <div className='w-full py-[20px]' >
@@ -58,7 +82,7 @@ const page = () => {
 
                     {/* TABLE */}
                     <div className='w-full mt-5'>
-                        <Table data={incuees} />
+                        <Table loading={loading} data={incubatees} />
                     </div>
 
 
@@ -68,4 +92,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

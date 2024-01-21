@@ -30,7 +30,7 @@ export const authSlice = createSlice({
             console.log('cleared login success')
         },
         logout: (state) => {
-            state.loginSuccess = false;
+            state.accesstoken = "";
             console.log('cleared login success')
         },
     },

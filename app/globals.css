@@ -27,43 +27,44 @@ body {
 } */
 
 
-.login-bg{
+.login-bg {
   background: url(../assets/images//login.png);
   background-size: cover;
 }
 
 .inputs:-webkit-autofill,
-.inputs:-webkit-autofill:hover, 
-.inputs:-webkit-autofill:focus, 
-.inputs:-webkit-autofill:active{
-    background: none !important;
+.inputs:-webkit-autofill:hover,
+.inputs:-webkit-autofill:focus,
+.inputs:-webkit-autofill:active {
+  background: none !important;
 }
 
 
-.container{
-  @apply w-[90%] mx-auto 
+.container {
+  @apply w-[90%] mx-auto
 }
 
-.dash-container{
-  @apply w-[94%] mx-auto 
+.dash-container {
+  @apply w-[94%] mx-auto
 }
 
-.input-wrap{
+.input-wrap {
   @apply w-full flex flex-col items-start gap-2 relative
-} 
-
-.labels{
-  @apply text-[11px] 2xl:text-xs font-medium text-head  
 }
 
-.inputs{
+.labels {
+  @apply text-[11px] 2xl:text-xs font-medium text-head
+}
+
+.inputs {
   @apply text-xs 2xl:text-sm rounded w-full border border-border bg-none p-2 py-[10px] focus:outline-none focus:border-[1px] focus:border-primary1 invalid:border-[1px] invalid:border-error2 autofill:bg-none
 }
-.inputsfade{
+
+.inputsfade {
   @apply text-xs 2xl:text-sm rounded w-full border-0 border-border bg-dashboardBg p-2 py-[10px] focus:outline-none focus:border-[1px] focus:border-someBorderGray autofill:bg-none
 }
 
-.password-input{
+.password-input {
   @apply w-full relative
 }
 
@@ -75,45 +76,51 @@ body {
   @apply w-full text-xs font-semibold bg-primary1 text-white p-[12px] rounded mt-[1rem]
 }
 
-.hovers{
+.hovers {
   @apply hover:bg-sidebarTxtHover active:bg-sidebarTxtActive transition duration-200 cursor-pointer
 }
 
-.hovers-text{
+.hovers-text {
   @apply hover:text-sidebarTxtHover active:text-sidebarTxtActive transition duration-200 cursor-pointer
 }
 
-.scroll{
+
+input[type="file"] {
+
+  
+}
+
+.scroll {
   overflow-y: scroll;
 }
 
-.scroll-2{
+.scroll-2 {
   overflow-y: scroll;
 }
 
-.slim-scroll{
+.slim-scroll {
   overflow-y: scroll;
 }
- 
 
-.scroll-2::-webkit-scrollbar{
+
+.scroll-2::-webkit-scrollbar {
   width: 2px
 }
 
-.scroll-2::-webkit-scrollbar-thumb{
+.scroll-2::-webkit-scrollbar-thumb {
   background: #00692B;
 }
 
-.slim-scroll::-webkit-scrollbar{
+.slim-scroll::-webkit-scrollbar {
   width: 2px;
   display: none;
 }
 
-.slim-scroll::-webkit-scrollbar-thumb{
+.slim-scroll::-webkit-scrollbar-thumb {
   background: #00692B;
 }
 
-.prompt-bg-open{
+.prompt-bg-open {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
@@ -127,11 +134,11 @@ body {
   animation: fadeIn .5s ease-in-out
 }
 
-.prompt-bg-close{
+.prompt-bg-close {
   display: none;
 }
 
-.card-open{
+.card-open {
   width: 30%;
   max-width: 600px;
   background: #fff;
@@ -144,7 +151,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.card-close{
+.card-close {
   width: 30%;
   max-width: 600px;
   background: #fff;
@@ -157,53 +164,57 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.swipe-right{
+.swipe-right {
   position: absolute;
   color: #00692B;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   white-space: nowrap;
-  animation: text-swipe .3s ease-in-out;
+  /* animation: text-swipe .3s ease-in-out; */
 }
 
-.spinning-logo{
+.spinning-logo {
   width: 100%;
   animation: logo-spin 6s linear infinite;
 }
 
 @keyframes fadeIn {
-  from{
+  from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 @keyFrames dropIn {
-  from{
+  from {
     top: 0%
   }
-  to{
+
+  to {
     top: 50%
   }
 }
 
-@keyframes logo-spin{
-  from{
+@keyframes logo-spin {
+  from {
     transform: rotateZ(0deg);
   }
-  to{
+
+  to {
     transform: rotateZ(359deg);
   }
 }
 
-@keyframes text-swipe{
-  from{
+@keyframes text-swipe {
+  from {
     transform: translateX(-50%);
   }
-  to{
+
+  to {
     transform: transLateX(100%);
   }
 }

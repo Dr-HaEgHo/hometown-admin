@@ -1,7 +1,10 @@
+'use client'
 import Table2 from '@/components/Table2'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { getAllUsers } from '@/store/users/userActions'
 import { AddSquare, ArrowDown2 } from 'iconsax-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const users = [
     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, title: "Farmer", status: "Active", date: "12 July 2023", time: "2:30 am" },
@@ -12,7 +15,28 @@ const users = [
     { id: 1, name: "Akpan Mariam", LGA: "Bomadi North", phoneNunmber: 2348123456789, title: "buyer", status: "Active", date: "12 July 2023", time: "2:30 am" },
 ]
 
-const page = () => {
+const Page = () => {
+
+    const dispatch = useAppDispatch();
+
+    const [loading, setLoading] = useState(false)
+
+
+    const users = useAppSelector((state) => state.user.users)
+    const isLoading = useAppSelector((state) => state.user.loading)
+
+    useEffect(() => {
+        dispatch(getAllUsers())
+    }, [])
+
+    useEffect(() => {
+        if (isLoading === true) {
+            setLoading(true)
+        } else {
+            setLoading(false)
+        }
+    }, [isLoading])
+
     return (
         <div className='w-full py-[20px]' >
             <div className="dash-container">
@@ -57,7 +81,7 @@ const page = () => {
 
                     {/* TABLE */}
                     <div className='w-full mt-5'>
-                        <Table2 data={users} />
+                        <Table2 loading={loading} data={users} />
                     </div>
 
 
@@ -67,4 +91,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

@@ -12,7 +12,7 @@ export const getDashCounts = createAsyncThunk(
     "getDashCounts",
     async (_, {rejectWithValue, getState}) => {
         const { auth } = getState() as RootState;
-        console.log(auth.accesstoken, "access res")
+        
 
         try {
             const res = await axios.get(`${baseUrl}/dashboard/get_counts/`,
@@ -24,7 +24,6 @@ export const getDashCounts = createAsyncThunk(
                 }
             );
             if (res.status === 200 || res.status === 201) {
-                console.log(res, "the res")
                 return res;
             }
         } catch (err: any) {
