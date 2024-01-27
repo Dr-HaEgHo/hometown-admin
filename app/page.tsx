@@ -31,11 +31,21 @@ export default function Home() {
     setContent(roles[count]);
   }, [count]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     router.push("/login");
-  //   }, 5000);
-  // }, []);
+  
+
+  useEffect(() => {
+
+
+    const timerId = setTimeout(() => {
+      router.push("/login");
+    }, 3000);
+
+
+    return () => {
+      clearTimeout(timerId)
+    }
+
+  }, []);
 
   return (
     <main className="w-full h-screen flex items-center justify-center ">

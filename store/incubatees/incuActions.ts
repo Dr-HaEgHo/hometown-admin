@@ -2,18 +2,25 @@ import { baseUrl } from "@/config";
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios";
 import { RootState } from "../store";
+import { toast } from "react-toastify";
+import cogoToast from "cogo-toast";
 
 // const baseUrl = process.env.BASE_URL
 
 // ================================================================= ADD NEW INCUBATEE
 export const addNewIncubatee = createAsyncThunk(
     "addNewIncubatee",
-    async ({ email, password }: { email: string, password: string }, { rejectWithValue, getState }) => {
+    async ({ firstName, lastName, email, phone, state, lga, base64Image }: { firstName: string, lastName: string, email: string, phone: number, state: string, lga: string, base64Image: string | null}, { rejectWithValue, getState }) => {
         const { auth} = getState() as RootState
         try {
             const res = await axios.post(`${baseUrl}/register/agent/`, {
+                first_name: firstName,
+                last_name: lastName,
                 email,
-                password
+                phone,
+                state,
+                lga,
+                photo: base64Image
             },
                 {
                     headers: {
@@ -23,12 +30,14 @@ export const addNewIncubatee = createAsyncThunk(
                 } 
             )
             if (res.status === 200 || res.status === 201) {
+                cogoToast.success("User Added Successfully")
                 return res;
             }
         } catch (err: any) {
             console.log(err);
 
             if (err.response.status === 400) {
+                cogoToast.error(err.response.data)
                 return rejectWithValue(err.response);
             } else {
                 return rejectWithValue(err.response);

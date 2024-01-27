@@ -67,13 +67,13 @@ const Page = () => {
                                     <p className='text-white text-xs 2xl:text-sm ' >Add New</p>
                                 </button>
                             </Link>
-                            <button className='transition duration-200 w-5 h-5 rounded bg-noteIconBtn hover:sidebarTxtHover active:bg-sidebarTxtActive overflow-hidden '>
+                            {/* <button className='transition duration-200 w-5 h-5 rounded bg-noteIconBtn hover:sidebarTxtHover active:bg-sidebarTxtActive overflow-hidden '>
                                 <Image
                                     src={require('../../../assets/icons/dropicon.png')}
                                     alt="hometownadmin.com"
                                     className='w-full'
                                 />
-                            </button>
+                            </button> */}
 
                         </div>
                     </div>

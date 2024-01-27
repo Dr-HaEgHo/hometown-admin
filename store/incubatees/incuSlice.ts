@@ -10,7 +10,8 @@ interface IncuState {
     isLoggedIn: boolean,
     loginSuccess: boolean,
     incubatees: [],
-    singleIncubatee: any
+    singleIncubatee: any,
+    newUserSuccess: boolean
 }
 
 const initialState: IncuState = {
@@ -20,16 +21,16 @@ const initialState: IncuState = {
     isLoggedIn: false,
     loginSuccess: false,
     incubatees: [],
-    singleIncubatee: {}
+    singleIncubatee: {},
+    newUserSuccess: false
 }
 
 export const incuSlice = createSlice({
     name: 'incu',
     initialState,
     reducers: {
-        clearLoginSuccess: (state) => {
-            state.loginSuccess = false;
-            console.log('cleared login success')
+        clearNewUserSuccess: (state) => {
+            state.newUserSuccess = false;
         },
         logout: (state) => {
             state.loginSuccess = false;
@@ -40,13 +41,14 @@ export const incuSlice = createSlice({
 
         // ADD NEW INCUBATEE
         builder.addCase(addNewIncubatee.pending, (state, { payload }) => {
-            state.loading = true;
+            state.loadingNewUser = true;
         }),
             builder.addCase(addNewIncubatee.fulfilled, (state, { payload }) => {
-                state.loading = false;
+                state.loadingNewUser = false;
+                state.newUserSuccess = true
             }),
             builder.addCase(addNewIncubatee.rejected, (state, { payload }) => {
-                state.loading = false;
+                state.loadingNewUser = false;
             })
 
 
@@ -79,7 +81,7 @@ export const incuSlice = createSlice({
 
 })
 
-export const { } = incuSlice.actions;
+export const { clearNewUserSuccess } = incuSlice.actions;
 
 // export const selectincu = (state: RootState) => state.counter.value
 

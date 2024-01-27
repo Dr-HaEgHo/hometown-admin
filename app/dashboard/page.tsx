@@ -52,8 +52,8 @@ const notifications = [
   },
   {
     id: 2,
-    title: "24 Pending Requests",
-    desc: "24 new users are waiting for approval 24 new users are waiting for approval 24 new users are waiting for approval",
+    title: "16 pending requests",
+    desc: "16 new users are waiting for approval 16 new users are waiting for approval 16 new users are waiting for approval",
     time: "2 hours ago",
     icon: "",
   },
@@ -169,6 +169,8 @@ const Page = () => {
     <div className="w-full py-[20px]">
       <div className="dash-container">
         <div className="w-full flex items-start justify-between relative">
+          
+          
           {/* ANALYTICS */}
           <div className="w-[63%] sticky top-0">
             {/* ANALYTICS BOXES */}
@@ -220,8 +222,8 @@ const Page = () => {
 
           {/* NOTIFICATIONS */}
           <div className="w-[34%]">
-            <div className="bg-white rounded-2xl p-3 2xl:p-4">
-              <h2 className="text-base text-head font-semibold">
+            <div className="bg-white rounded-2xl py-3 2xl:py-4">
+              <h2 className="text-base px-3 2xl:px-4 text-head font-semibold">
                 Notifications
               </h2>
               {notifications.map((item) => (

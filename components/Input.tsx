@@ -1,7 +1,9 @@
 "use client";
 import {
   dropDownProps,
+  dropDownPropsFade,
   emailInputProps,
+  emailInputPropsFade,
   fileUploadProps,
   pwInputProps,
 } from "@/types/types";
@@ -33,7 +35,7 @@ const Input: FC<emailInputProps> = (props) => {
 };
 export default Input;
 
-export const InputFade: FC<emailInputProps> = (props) => {
+export const InputFade: FC<emailInputPropsFade> = (props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.setValue(e.target.value);
   };
@@ -44,6 +46,7 @@ export const InputFade: FC<emailInputProps> = (props) => {
       <input
         onChange={handleInputChange}
         type={props?.type}
+        value={props.value}
         className="inputsfade"
         placeholder={props.placeholder && props.placeholder}
       />
@@ -149,7 +152,7 @@ export const DropDown: FC<pwInputProps> = (props) => {
   );
 };
 
-export const DropDownFade: FC<dropDownProps> = (props) => {
+export const DropDownFade: FC<dropDownPropsFade> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [value, setValue]: [value: string, setValue: any] = useState("");
 
@@ -173,7 +176,7 @@ export const DropDownFade: FC<dropDownProps> = (props) => {
       <div className="password-input">
         <input
           onChange={handleChange}
-          value={value}
+          value={props.value}
           className="inputsfade  "
           type={props?.type}
           placeholder={props.placeholder && props.placeholder}
@@ -214,6 +217,11 @@ export const DropDownFade: FC<dropDownProps> = (props) => {
 };
 
 export const FileUpload: FC<fileUploadProps> = (props) => {
+
+  const handleImageChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    props.setSelectedImage(e.target.files ? e.target.files[0] : null);
+  };
+
   return (
     <div className="input-wrap">
       <label className="labels">{props.label && props.label}</label>
@@ -231,6 +239,7 @@ export const FileUpload: FC<fileUploadProps> = (props) => {
         <input
           className="inputsfade "
           type="file"
+          onChange={handleImageChange}
           style={{
             position: "absolute",
             top: "0px",
