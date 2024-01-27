@@ -1,7 +1,7 @@
 'use client'
 import { incubateeData } from '@/types/types';
 import { useParams, useRouter } from 'next/navigation';
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import TableShimmerLoader from './TableShimmerLoader';
 import EmptyTable from './EmptyTable';
 import moment from 'moment';
@@ -9,7 +9,22 @@ import moment from 'moment';
 
 const Table = ({ data, loading }: { data: any, loading: boolean }) => {
 
+    const [sortedResults, setSortedResults] = useState([] as any)
     const router = useRouter();
+
+    const sortResults = () => {
+        if (data.results) {
+            console.log("results in table:::", data.results)
+            const dataCopy: any[] = [...data.results]
+            const newSortedResults = dataCopy.sort((a: any , b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+            setSortedResults(newSortedResults)
+        }
+    }
+
+    useEffect(() => {
+        sortResults()
+    }, [])
+
 
     return (
         <div className='w-full bg-white rounded-lg p-[10px]'>
@@ -38,7 +53,7 @@ const Table = ({ data, loading }: { data: any, loading: boolean }) => {
                     {loading ? (<TableShimmerLoader />) : (
                     <tbody className='flex flex-col gap-4' >
                             {
-                                data && data.results ? data.results.map((item: any) => (
+                                data && data.results ? sortedResults.map((item: any) => (
                                     <tr onClick={() => {
                                         router.push(`/dashboard/incubatees/${item?.id}`)
                                     }} key={item.id} className='w-full flex items-center px-2 justify-between hover:bg-sidebarTxtHover active:bg-sidebarTxtActive transition duration-200 cursor-pointer'>
