@@ -54,7 +54,7 @@ const Page = () => {
                                 <div className='bg-incuTxt rounded-full px-2 py-[1px]' >
                                     <p className='text-xs 2xl:text-sm text-head' >234</p>
                                 </div>
-                            </div>s
+                            </div>
                             <p className='text-smallHeadTxt text-xs 2xl:text-sm ' >Keep track of all registered incubatees</p>
                         </div>
 
