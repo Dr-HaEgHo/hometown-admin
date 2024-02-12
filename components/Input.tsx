@@ -15,6 +15,8 @@ import {
   EyeSlash,
 } from "iconsax-react";
 import React, { FC, useReducer, useRef, useState } from "react";
+import PhoneInput from 'react-phone-number-input'
+
 
 const Input: FC<emailInputProps> = (props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +39,7 @@ export default Input;
 
 export const InputFade: FC<emailInputPropsFade> = (props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    props.setValue(e.target.value);
+    props.setValue(e.target.value); 
   };
 
   return (
@@ -47,12 +49,31 @@ export const InputFade: FC<emailInputPropsFade> = (props) => {
         onChange={handleInputChange}
         type={props?.type}
         value={props.value}
-        className="inputsfade"
+        className="inputsfade !mb-0"
         placeholder={props.placeholder && props.placeholder}
       />
+      {props.error && props.value.length > 0 ? <p className='text-[10px] text-error -mt-2' >{props?.error}</p> : null }
     </div>
   );
 };
+
+// export const PhoneInputHT: FC<emailInputPropsFade> = (props) => {
+//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     props.setValue(e.target.value);
+//   };
+
+//   return (
+//     <div className="input-wrap">
+//       <label className="labels">{props.label && props.label}</label>
+//       <PhoneInput
+//         placeholder="Enter phone number"
+//         value={props?.value}
+//         onChange={(e:React.ChangeEvent<HTMLInputElement>) => parseInt(e.target.value)} />
+        
+//       {props.error ? <p className='text-[10px] text-error -mt-2' >{props?.error}</p> : null }
+//     </div>
+//   );
+// };
 
 export const PasswordInput: FC<pwInputProps> = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -198,14 +219,15 @@ export const DropDownFade: FC<dropDownPropsFade> = (props) => {
           }}
           className="transition duration-[1000ms] w-full rounded-md bg-white shadow absolute z-10 top-[120%] slim-scroll"
         >
-          {props?.data.map((item, i) => (
+          {props?.data.map((item:any, i:number) => (
             <p
               key={i}
               ref={pRef}
-              onClick={() => handleDropItem(item.name)}
+              onClick={() => handleDropItem(item.state || item)}
               className="transition duration-200 cursor-pointer p-2 text-[11px] 2xl:text-xs hover:bg-sidebarTxtHover active:bg-sidebarTxtActive"
             >
-              {item.name}
+              {item.state && item.state}
+              {!item.state && item}
             </p>
           ))}
 

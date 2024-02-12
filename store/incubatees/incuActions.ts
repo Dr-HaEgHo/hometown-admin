@@ -10,7 +10,7 @@ import cogoToast from "cogo-toast";
 // ================================================================= ADD NEW INCUBATEE
 export const addNewIncubatee = createAsyncThunk(
     "addNewIncubatee",
-    async ({ firstName, lastName, email, phone, state, lga, base64Image }: { firstName: string, lastName: string, email: string, phone: number, state: string, lga: string, base64Image: string | null}, { rejectWithValue, getState }) => {
+    async ({ firstName, lastName, email, phone, state, lga, base64Image }: { firstName: string, lastName: string, email: string, phone: string, state: string, lga: string, base64Image: string | null}, { rejectWithValue, getState }) => {
         const { auth} = getState() as RootState
         try {
             const res = await axios.post(`${baseUrl}/register/agent/`, {
@@ -35,14 +35,14 @@ export const addNewIncubatee = createAsyncThunk(
             }
         } catch (err: any) {
             console.log(err);
-
+            
+            cogoToast.error(err.response.data.email[0])
             if (err.response.status === 400) {
-                cogoToast.error(err.response.data)
-                return rejectWithValue(err.response);
+                cogoToast.error("An error occured, Try Again!")
             } else {
                 return rejectWithValue(err.response);
             }
-
+            
             // return rejectWithValue(err);
         }
     }

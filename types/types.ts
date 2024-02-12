@@ -11,7 +11,8 @@ export interface emailInputPropsFade {
     placeholder: string,
     type: string,
     setValue: Function,
-    value:any
+    value: any,
+    error?: string 
 }
 
 export interface pwInputProps {
@@ -24,7 +25,7 @@ export interface dropDownProps {
     label: string,
     placeholder: string,
     type: string,
-    data: {
+    data: { 
         id: number,
         name: string,
     }[],
@@ -36,12 +37,10 @@ export interface dropDownPropsFade {
     label: string,
     placeholder: string,
     type: string,
-    data: {
-        id: number,
-        name: string,
-    }[],
+    data: any,
     setValue: Function,
-    value: any
+    value: any,
+    error?:string
 }
 
 export interface sidebarLink {
@@ -67,4 +66,10 @@ export interface loginDetails{
 export interface fileUploadProps{
     label: string,
     setSelectedImage: Function
+}
+
+export interface fetchType {
+    method: string,
+    url: string,
+    // headers?: {}
 }

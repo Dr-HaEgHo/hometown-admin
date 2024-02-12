@@ -11,22 +11,29 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-phone-input-2/lib/style.css'
+import PhoneInput from 'react-phone-input-2'
+import { useFetch } from '@/hooks/useFetch'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
+// import NaijaStates from 'naija-state-local-government';
+const NaijaStates = require('naija-state-local-government');
 
 
-const states = [
-    { id: 1, name: "Ogun" },
-    { id: 2, name: "Oyo" },
-    { id: 3, name: "Lagos" },
-    { id: 4, name: "Osun" },
-    { id: 5, name: "Abia" },
-    { id: 6, name: "Rivers" },
-    { id: 7, name: "Enugu" },
-    { id: 8, name: "Imo" },
-    { id: 9, name: "Kano" },
-    { id: 10, name: "Kogi" },
-    { id: 11, name: "Nassarawa" },
-    { id: 12, name: "Gombe" },
-]
+// const states = [
+//     { id: 1, name: "Ogun" },
+//     { id: 2, name: "Oyo" },
+//     { id: 3, name: "Lagos" },
+//     { id: 4, name: "Osun" },
+//     { id: 5, name: "Abia" },
+//     { id: 6, name: "Rivers" },
+//     { id: 7, name: "Enugu" },
+//     { id: 8, name: "Imo" },
+//     { id: 9, name: "Kano" },
+//     { id: 10, name: "Kogi" },
+//     { id: 11, name: "Nassarawa" },
+//     { id: 12, name: "Gombe" },
+// ]
 
 const local = [
     { id: 1, name: "Ogun" },
@@ -57,19 +64,31 @@ const roles = [
 const Page = () => {
 
 
+    const router = useRouter()
     const dispatch = useAppDispatch();
-    const isLoading = useAppSelector(state => state.incubatees.loadingSingleUser)
+    const isLoading = useAppSelector(state => state.incubatees.loadingNewUser)
     const isUserSuccess = useAppSelector(state => state.incubatees.newUserSuccess)
 
+    const [allStates, setAllStates] = useState<[]>([]);
+    const [lgaList, setLgaList] = useState<[]>([])
 
-    const [loading, setLoading] = useState(false)
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [email, setEmail] = useState("")
-    const [phone, setPhone] = useState(0)
-    const [state, setState] = useState("")
-    const [lga, setLga] = useState("")
+    const [loading, setLoading] = useState<boolean>(false)
+    const [firstName, setFirstName] = useState<string>("")
+    const [lastName, setLastName] = useState<string>("")
+    const [email, setEmail] = useState<string>("")
+    const [phone, setPhone] = useState<string>("")
+    const [state, setState] = useState<string>("")
+    const [lga, setLga] = useState<string>("")
     const [base64Image, setBase64Image] = useState<string | null>(null);
+
+    const [errorFN, setErrorFN] = useState<string>("")
+    const [errorLN, setErrorLN] = useState<string>("")
+    const [errorE, setErrorE] = useState<string>("")
+    const [errorPH, setErrorPH] = useState<string>("")
+    const [errorST, setErrorST] = useState<string>("")
+    const [errorLG, setErrorLG] = useState<string>("")
+    const [errorIMG, setErrorIMG] = useState<string>("")
+
     // const [formData, setFormData]: [formData: any, setFormData: Function] = useState()
     // const [role, setRole] = useState("")
     const [isFormButtonDisabled, setIsFormButtonDisabled] = useState(true);
@@ -79,8 +98,43 @@ const Page = () => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const isValidEmail = emailRegex.test(email);
 
-    let newForm = new FormData();
-    // let formData: any;
+    // const states = useFetch({
+    //     method: 'GET',
+    //     url: 'https://nigeria-states-and-lga.p.rapidapi.com/lgalists',
+    //     headers: {
+    //         'X-RapidAPI-Key': 'SIGN-UP-FOR-KEY',
+    //         'X-RapidAPI-Host': 'nigeria-states-and-lga.p.rapidapi.com'
+    //     }
+    // })
+
+    useEffect(() => {
+        if (isUserSuccess === true) {
+            router.push('/dashboard/incubatees')
+        }
+
+        setTimeout(() => {
+            dispatch(clearNewUserSuccess())
+        }, 2000);
+
+    }, [isUserSuccess])
+
+    useEffect(() => {
+        setAllStates(NaijaStates.all())
+
+    }, [])
+
+    console.log(NaijaStates.all())
+
+    useEffect(() => {
+        allStates.length ? allStates.filter((item:any) => {
+            if (item.state === state) {
+                setLgaList(item.lgas)
+            }
+        }): null
+
+    }, [state])
+    
+    console.log('lgas:' , lgaList)
 
 
 
@@ -104,6 +158,9 @@ const Page = () => {
 
     };
 
+    const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPhone(e.target.value)
+    }
 
 
     const handleCreateNew = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -132,26 +189,26 @@ const Page = () => {
             setFirstName("")
             setLastName("")
             setEmail("")
-            setPhone(0)
+            setPhone("")
             setState("")
             // toast.success("User Successfully added!")
-            
-            const successTimeOut = setTimeout(() => { 
+
+            const successTimeOut = setTimeout(() => {
                 clearNewUserSuccess()
             }, 3000)
 
             clearTimeout(successTimeOut)
-        } 
+        }
     }, [isUserSuccess]);
 
 
-    useEffect(() => { 
+    useEffect(() => {
         if (isLoading === true) {
-                setLoading(true)
+            setLoading(true)
         } else {
             setLoading(false)
-            }
-    } , [isLoading])
+        }
+    }, [isLoading])
 
 
     useEffect(() => {
@@ -162,17 +219,63 @@ const Page = () => {
             email !== "" &&
             firstName !== "" &&
             lastName !== "" &&
-            phone !== 0 &&
+            phone !== "" &&
             state !== "" &&
             selectedImage !== "" &&
             lga !== ""
         ) {
             setIsFormButtonDisabled(false);
-        } else {
-            setIsFormButtonDisabled(true);
         }
+
+        if (email === "") {
+            setErrorE("This field is required")
+        } else if (email.length < 8) {
+            setErrorE('Must be more than 8 characters')
+        } else if (!isValidEmail) {
+            setErrorE('Email is invalid!')
+        } else {
+            setErrorE("")
+        }
+
+        if (firstName === "") {
+            setErrorFN("This field is required")
+        } else if (firstName.length < 2) {
+            setErrorFN('Minimum of 2 characters')
+        } else {
+            setErrorFN("")
+        }
+
+        if (lastName === "") {
+            setErrorLN("This field is required")
+        } else if (lastName.length < 2) {
+            setErrorLN('Minimum of 2 characters')
+        } else {
+            setErrorLN("")
+        }
+
+        if (phone === "") {
+            setErrorPH("This field is required")
+        } else if (phone.length < 13) {
+            setErrorPH("Invalid: phone number too short")
+        } else if (phone.length > 14) {
+            setErrorPH("Invalid: phone number too long")
+        } else {
+            setErrorPH("")
+        }
+
+        if (state === "") {
+            setErrorST("This field is required")
+        } else {
+            setErrorST("")
+        }
+
+
+        // else {
+        //     setIsFormButtonDisabled(true);
+        // }
     }, [email, isValidEmail, firstName, lastName, email, selectedImage, phone, state, lga]);
 
+    
 
     return (
 
@@ -201,12 +304,27 @@ const Page = () => {
                     {/* FORM AND BUTTON */}
                     <div className='w-full ' >
                         <form className=' w-full flex items-start flex-col gap-4 '>
-                            <InputFade value={ firstName} setValue={setFirstName} type='text' label='First Name' placeholder='Please Enter Your Name' />
-                            <InputFade value={lastName } setValue={setLastName} type='text' label='Last Name' placeholder='Please Enter Your Name' />
-                            <InputFade value={ email} setValue={setEmail} type='email' label='Email Address' placeholder='Please Enter Your Email' />
-                            <InputFade value={ phone} setValue={setPhone} type='number' label='Phone Number' placeholder='Please Enter Your Phone Number' />
-                            <DropDownFade value={ state} setValue={setState} type='text' data={states} label='State' placeholder='Please Select State' />
-                            <DropDownFade value={ lga} setValue={setLga} type='text' data={local} label='Local Government Area' placeholder='Please Select LGA' />
+                            <InputFade value={firstName} error={errorFN} setValue={setFirstName} type='text' label='First Name' placeholder='Please Enter Your Name' />
+
+                            <InputFade value={lastName} error={errorLN} setValue={setLastName} type='text' label='Last Name' placeholder='Please Enter Your Name' />
+                            <InputFade value={email} error={errorE} setValue={setEmail} type='email' label='Email Address' placeholder='Please Enter Your Email' />
+                            <div className="input-wrap">
+                                <label className="labels">Phone Number</label>
+                                <div className='w-full flex ' >
+                                    <PhoneInput
+                                        country={'ng'}
+                                        placeholder="Enter phone number"
+                                        value={phone}
+                                        onChange={phone => setPhone(phone)}
+                                        searchStyle={{
+                                            width: "100%",
+                                        }}
+                                    />
+                                </div>
+                                {errorPH && phone.length > 0 ? <p className='text-[10px] text-error -mt-2' >{errorPH}</p> : null}
+                            </div>
+                            <DropDownFade value={state} error={errorST} setValue={setState} type='text' data={allStates} label='State' placeholder='Please Select State' />
+                            <DropDownFade value={lga} error={errorLG} setValue={setLga} type='text' data={lgaList} label='Local Government Area' placeholder='Please Select LGA' />
                             {/* <DropDownFade setValue={setRole} type='text' data={roles} label='Role' placeholder='Please Select Your Role' /> */}
 
                             <div className="input-wrap">
@@ -237,15 +355,16 @@ const Page = () => {
                                             cursor: "pointer",
                                         }}
                                     />
+                                    {errorIMG ? <p className='text-[10px] text-error -mt-2' >{errorIMG}</p> : null}
                                 </div>
                             </div>
                             {
                                 selectedImage && <p className='text-black text-xs' >{selectedImage}</p>
-                            }
+                            } 
                             <button disabled={isFormButtonDisabled}
                                 onClick={handleCreateNew}
                                 className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-8 disabled:bg-someGray'>
-                                <p className='text-white text-xs 2xl:text-sm ' >{ loading === true ? 'Loading...' : 'Add New' }</p>
+                                <p className='text-white text-xs 2xl:text-sm ' >{loading ? 'Loading...' : 'Add New'}</p>
                             </button>
                         </form>
                     </div>

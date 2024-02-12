@@ -23,8 +23,8 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
 
 
-    const incubatees = useAppSelector((state)=> state.incubatees.incubatees)
-    const isLoading = useAppSelector((state) => state.incubatees.loading)
+    const incubatees = useAppSelector((state) => state.incubatees.incubatees);
+    const isLoading = useAppSelector((state) => state.incubatees.loading);
     
     useEffect(() => {
         dispatch(getAllIncubatees())

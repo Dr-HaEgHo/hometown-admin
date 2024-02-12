@@ -45,7 +45,7 @@ export const incuSlice = createSlice({
         }),
             builder.addCase(addNewIncubatee.fulfilled, (state, { payload }) => {
                 state.loadingNewUser = false;
-                state.newUserSuccess = true
+                state.newUserSuccess = true;
             }),
             builder.addCase(addNewIncubatee.rejected, (state, { payload }) => {
                 state.loadingNewUser = false;

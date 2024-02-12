@@ -197,6 +197,21 @@ input[type="file"] {
   animation: logo-spin 6s linear infinite;
 }
 
+.react-tel-input .form-control{
+  width: 100% !important;
+  background: #F5F7F9 !important;
+  border: none !important
+}
+
+.react-tel-input .form-control:focus{
+  border: 1px #EAEAEA solid !important
+}
+
+.react-tel-input .flag-dropdown{
+  border: 1px #EAEAEA solid !important
+}
+
+
 @keyframes fadeIn {
   from {
     opacity: 0;
