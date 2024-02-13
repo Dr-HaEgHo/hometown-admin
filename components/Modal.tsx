@@ -18,7 +18,7 @@ const Modal = ({ isOpen, setIsOpen, children }: { isOpen: boolean, setIsOpen: Fu
                 <div className={isOpen === true ? 'card-open' : 'card-close'} >
                     <div className='w-full h-full flex flex-col items-center relative p-8' >
                         <CloseSquare onClick={handleClick} size='28' variant='Bold' className='text-sidebarTxt absolute top-3 right-3 hovers-text' />
-
+                
 
                         {children}
 

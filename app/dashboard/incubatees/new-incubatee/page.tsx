@@ -119,18 +119,16 @@ const Page = () => {
     }, [isUserSuccess])
 
     useEffect(() => {
-        setAllStates(NaijaStates.all())
-
+        setAllStates(NaijaStates.all());
     }, [])
 
-    console.log(NaijaStates.all())
 
     useEffect(() => {
         allStates.length ? allStates.filter((item:any) => {
             if (item.state === state) {
                 setLgaList(item.lgas)
             }
-        }): null
+        }) : null
 
     }, [state])
     

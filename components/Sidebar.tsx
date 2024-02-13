@@ -9,6 +9,11 @@ import { useRouter } from "next/navigation";
 import Prompt from "./Prompt";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { logout } from "@/store/auth/authSlice";
+import Modal from "./Modal";
+import { clearAssignSuccess, toggleAssignTabOpen } from "@/store/incubatees/incuSlice";
+import { DropDownFade } from "./Input";
+import { assignNewLga } from "@/store/incubatees/incuActions";
+const NaijaStates = require('naija-state-local-government');
 
 const Sidebar = () => {
   const location = usePathname();
@@ -16,10 +21,25 @@ const Sidebar = () => {
   const param = useParams();
   const dispatch = useAppDispatch();
 
+
   const token = useAppSelector((state) => state.auth.accesstoken);
+  const isAssignTabOpen = useAppSelector((state) => state.incubatees.isAssignTabOpen);
+  const assignAgentLoading = useAppSelector((state) => state.incubatees.loadingAssignNewAgent);
+  const isAssignSuccess = useAppSelector((state) => state.incubatees.assignSuccess);
+  const [allStates, setAllStates] = useState<[]>([]);
+  const [lgaList, setLgaList] = useState<[]>([])
+  const [isFormButtonDisabled, setIsFormButtonDisabled] = useState(true);
+
 
   const [onlineStatus, setOnlineStatus] = useState("online");
   const [logoutOpen, setLogoutOpen] = useState(false);
+  const [state, setState] = useState<string>("")
+  const [lga, setLga] = useState<string>("")
+  const [assignLoading, setAssignLoading] = useState<boolean>(false)
+
+
+  const [errorST, setErrorST] = useState<string>("")
+  const [errorLG, setErrorLG] = useState<string>("")
 
   const sidebarLinks = [
     { id: 1, title: "Dashboard", route: "/dashboard" },
@@ -47,11 +67,64 @@ const Sidebar = () => {
     setLogoutOpen((prev: boolean) => (prev = !prev));
   };
 
-  // useEffect(() => {
-  //     if (token === "") {
-  //         router.push('/login')
-  //     }
-  // }, [token])
+  const handleAssignNewAgent = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(assignNewLga({
+      assigned: lga,
+      agentId: param?.id.toString()
+    }))
+  }
+
+  console.log("the param", param.id)
+
+  useEffect(() => {
+    setAllStates(NaijaStates.all());
+  }, [])
+
+  useEffect(() => {
+    if (isAssignSuccess) {
+      router.push('/dashboard/incubatees')
+    }
+
+    setTimeout(() => {
+      dispatch(clearAssignSuccess())
+    }, 2000);
+
+  }, [isAssignSuccess])
+
+  useEffect(() => {
+    if (assignAgentLoading) {
+      setAssignLoading(true)
+    } else {
+      setAssignLoading(false)
+    }
+  }, [assignAgentLoading])
+
+
+  useEffect(() => {
+    allStates.length ? allStates.filter((item: any) => {
+      if (item.state === state) {
+        setLgaList(item.lgas)
+      }
+    }) : null
+
+  }, [state])
+
+
+  useEffect(() => {
+    if (
+      state !== "" &&
+      lga !== ""
+    ) {
+      setIsFormButtonDisabled(false);
+    } else if (assignAgentLoading) {
+      setIsFormButtonDisabled(true);
+    } else {
+      setIsFormButtonDisabled(true)
+    }
+  }, [state, lga, assignAgentLoading])
+
+
 
   return (
     <div className="w-full h-full border-sidebarDiv border-r-[0.2px] bg-white ">
@@ -66,6 +139,16 @@ const Sidebar = () => {
           isOpen={logoutOpen}
           setIsOpen={setLogoutOpen}
         />
+
+        <Modal isOpen={isAssignTabOpen} setIsOpen={() => dispatch(toggleAssignTabOpen())} >
+          <div className="w-full" >
+            <form action="submit" className="w-full flex flex-col gap-2" >
+              <DropDownFade value={state} error={errorST} setValue={setState} type='text' data={allStates} label='State' placeholder='Please Select State' />
+              <DropDownFade value={lga} error={errorLG} setValue={setLga} type='text' data={lgaList} label='Local Government Area' placeholder='Please Select LGA' />
+              <button className="buttons" disabled={isFormButtonDisabled} onClick={handleAssignNewAgent} >{assignLoading ? "Please wait..." : "Assign"}</button>
+            </form>
+          </div>
+        </Modal>
 
         {/* TOP  */}
         <div className="w-full p-3 flex flex-col items-start">
@@ -99,20 +182,20 @@ const Sidebar = () => {
                 style={{
                   color:
                     location === item.route ||
-                    location === item.subRoutes ||
-                    location === item.subRoutes1
+                      location === item.subRoutes ||
+                      location === item.subRoutes1
                       ? "#103B1D"
                       : "#292D32",
                   backgroundColor:
                     location === item.route ||
-                    location === item.subRoutes ||
-                    location === item.subRoutes1
+                      location === item.subRoutes ||
+                      location === item.subRoutes1
                       ? "rgba(82, 255, 134, 0.1)"
                       : "",
                   borderRightWidth:
                     location === item.route ||
-                    location === item.subRoutes ||
-                    location === item.subRoutes1
+                      location === item.subRoutes ||
+                      location === item.subRoutes1
                       ? 4
                       : 0,
                 }}
@@ -122,8 +205,8 @@ const Sidebar = () => {
                     variant="Bulk"
                     color={
                       item.route === location ||
-                      location === item.subRoutes ||
-                      location === item.subRoutes1
+                        location === item.subRoutes ||
+                        location === item.subRoutes1
                         ? "#103B1D"
                         : "#292D32"
                     }
@@ -134,8 +217,8 @@ const Sidebar = () => {
                     variant="Bulk"
                     color={
                       item.route === location ||
-                      location === item.subRoutes ||
-                      location === item.subRoutes1
+                        location === item.subRoutes ||
+                        location === item.subRoutes1
                         ? "#103B1D"
                         : "#292D32"
                     }
@@ -146,21 +229,20 @@ const Sidebar = () => {
                     variant="Bulk"
                     color={
                       item.route === location ||
-                      location === item.subRoutes ||
-                      location === item.subRoutes1
+                        location === item.subRoutes ||
+                        location === item.subRoutes1
                         ? "#103B1D"
                         : "#292D32"
                     }
                   />
                 )}
                 <p
-                  className={`text-xs 2xl:text-sm text-linkTxt font-${
-                    item.route === location ||
-                    location === item.subRoutes ||
-                    location === item.subRoutes1
+                  className={`text-xs 2xl:text-sm text-linkTxt font-${item.route === location ||
+                      location === item.subRoutes ||
+                      location === item.subRoutes1
                       ? "semibold"
                       : "normal"
-                  }`}
+                    }`}
                 >
                   {item.title && item.title}
                 </p>

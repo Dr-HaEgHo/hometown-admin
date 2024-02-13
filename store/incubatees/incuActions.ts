@@ -115,3 +115,40 @@ export const getIncubateeById = createAsyncThunk(
         }
     }
 );
+
+
+
+// ================================================================= GET ALL INCUBATEES
+export const assignNewLga = createAsyncThunk(
+    "assignNewLga",
+    async ({ assigned, agentId }: { assigned: string, agentId: string}, { rejectWithValue, getState }) => {
+        const { auth } = getState() as RootState;
+
+        try {
+            const res = await axios.patch(`${baseUrl}/assign_agent/${agentId}/`, {
+                assigned_local_govt: assigned
+            },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer  ${auth.accesstoken}`,
+                    }
+                }
+            );
+            if (res.status === 200 || res.status === 201) {
+                cogoToast.success('Agent assigned successfully')
+                return res;
+            }
+        } catch (err: any) {
+            console.log(err);
+            cogoToast.error('An error occured, Try Again')
+            if (err.response.status === 400) {
+                return rejectWithValue(err.response);
+            } else {
+                return rejectWithValue(err.response);
+            }
+
+            // return rejectWithValue(err);
+        }
+    }
+);

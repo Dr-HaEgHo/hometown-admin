@@ -3,6 +3,7 @@ import Table from '@/components/Table'
 import TableShimmerLoader from '@/components/TableShimmerLoader'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { getIncubateeById } from '@/store/incubatees/incuActions'
+import { toggleAssignTabOpen } from '@/store/incubatees/incuSlice'
 import { AddSquare, ArrowLeft, DocumentDownload, EthereumClassic } from 'iconsax-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -22,6 +23,10 @@ const Page = () => {
 
 
     console.log(params.id, "the params id")
+
+    const handleOpenAssignTab = () => {
+        dispatch(toggleAssignTabOpen());    
+    }
 
     useEffect(() => {
         dispatch(getIncubateeById({ agentId: params.id.toString() }))
@@ -66,27 +71,25 @@ const Page = () => {
                         {/* RIGHT */}
                         <div className='flex items-center gap-3'>
                             {/* Icon */}
-                            <Link href={'/dashboard/incubatees/new-incubatee'} >
-                                <button className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-4'>
-                                    <EthereumClassic variant='Bold' color='white' size='18' />
-                                    <p className='text-white text-xs 2xl:text-sm ' >Assign to LGA</p>
-                                </button>
-                            </Link>
+                            <button onClick={handleOpenAssignTab} className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-4'>
+                                <EthereumClassic variant='Bold' color='white' size='18' />
+                                <p className='text-white text-xs 2xl:text-sm ' >Assign to LGA</p>
+                            </button>
 
                             {/* Icon */}
-                            <Link href={'/dashboard/incubatees/new-incubatee'} >
+                            {/* <Link href={'/dashboard/incubatees/new-incubatee'} >
                                 <button className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-4'>
                                     <DocumentDownload color='white' size='18' />
                                     <p className='text-white text-xs 2xl:text-sm ' >Download</p>
                                 </button>
-                            </Link>
-                            <button className='transition duration-200 w-5 h-5 rounded bg-noteIconBtn hover:sidebarTxtHover active:bg-sidebarTxtActive overflow-hidden '>
+                            </Link> */}
+                            {/* <button className='transition duration-200 w-5 h-5 rounded bg-noteIconBtn hover:sidebarTxtHover active:bg-sidebarTxtActive overflow-hidden '>
                                 <Image
                                     src={require('../../../../assets/icons/dropicon.png')}
                                     alt="hometownadmin.com"
                                     className='w-full'
                                 />
-                            </button>
+                            </button> */}
 
                         </div>
                     </div>
