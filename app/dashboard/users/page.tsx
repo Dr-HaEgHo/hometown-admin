@@ -1,4 +1,5 @@
 'use client'
+import Table from '@/components/Table'
 import Table2 from '@/components/Table2'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { getAllUsers } from '@/store/users/userActions'

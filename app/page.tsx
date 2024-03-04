@@ -1,6 +1,7 @@
 "use client";
 import Input, { PasswordInput } from "@/components/Input";
 import { useAppSelector } from "@/store/hooks";
+import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -31,7 +32,7 @@ export default function Home() {
     setContent(roles[count]);
   }, [count]);
 
-  
+
 
   useEffect(() => {
 
@@ -49,19 +50,22 @@ export default function Home() {
 
   return (
     <main className="w-full h-screen flex items-center justify-center ">
-      <div className="flex flex-col items-center justify-center">
-        <div className="h-[90px] w-[90px] flex items-center justify-center">
-          <Image
-            src={require("../assets/images/logo.png")}
-            alt="hometown-admin.com"
-            className="spinning-logo"
-          />
-        </div>
+      <Head>
+        <title>Test Title</title>
+        <div className="flex flex-col items-center justify-center">
+          <div className="h-[90px] w-[90px] flex items-center justify-center">
+            <Image
+              src={require("../assets/images/logo.png")}
+              alt="hometown-admin.com"
+              className="spinning-logo"
+            />
+          </div>
 
-        <div className="w-[120px] h-[30px] relative overflow-hidden">
-          <p className="swipe-right font-semibold"> {content}</p>
+          <div className="w-[120px] h-[30px] relative overflow-hidden">
+            <p className="swipe-right font-semibold"> {content}</p>
+          </div>
         </div>
-      </div>
+      </Head>
     </main>
   );
 }
