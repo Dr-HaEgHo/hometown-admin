@@ -125,7 +125,7 @@ const Page = () => {
                                         </div>
                                         <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
                                             <h5 className='text-sm 2xl:text-base font-semibold text-head' >Phone Number</h5>
-                                            <p className='text-someGray text-xs 2xl:text-sm' >{agent.phone}</p>
+                                            <p className='text-someGray text-xs 2xl:text-sm' >{agent.phone_number}</p>
                                         </div>
                                         <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>
                                             <h5 className='text-sm 2xl:text-base font-semibold text-head' >State</h5>
