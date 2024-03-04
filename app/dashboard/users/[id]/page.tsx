@@ -51,20 +51,20 @@ const Page = () => {
                         {/* RIGHT */}
                         <div className='flex items-center gap-3'>
                             {/* Icon */}
-                            <Link href={'/dashboard/incubatees/new-incubatee'} >
+                            {/* <Link href={'/dashboard/incubatees/new-incubatee'} >
                                 <button className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-4'>
                                     <EthereumClassic variant='Bold' color='white' size='18' />
                                     <p className='text-white text-xs 2xl:text-sm ' >Assign to LGA</p>
                                 </button>
-                            </Link>
+                            </Link> */}
 
                             {/* Icon */}
-                            <Link href={'/dashboard/incubatees/new-incubatee'} >
+                            {/* <Link href={'/dashboard/incubatees/new-incubatee'} >
                                 <button className='transition duration-200 rounded-[6px] bg-primary1 hover:bg-primary active:bg-primary1 flex items-center justify-center relative gap-3 py-2 px-4'>
                                     <DocumentDownload color='white' size='18' />
                                     <p className='text-white text-xs 2xl:text-sm ' >Download</p>
                                 </button>
-                            </Link>
+                            </Link> */}
                             <button className='transition duration-200 w-5 h-5 rounded bg-noteIconBtn hover:sidebarTxtHover active:bg-sidebarTxtActive overflow-hidden '>
                                 <Image
                                     src={require('../../../../assets/icons/dropicon.png')}
@@ -82,14 +82,11 @@ const Page = () => {
                         {
                             loading === true ?
 
-
                                 (<TableShimmerLoader />)
 
                                 :
 
-
                                 user && user.id ?
-
 
                                     (<div className='w-full flex flex-col gap-4' >
                                         <div className='w-full flex flex-col items-start border-b border-someOtherGrayBorder pb-[10px] gap-[10px]'>

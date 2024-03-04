@@ -17,9 +17,9 @@ export const addNewIncubatee = createAsyncThunk(
                 first_name: firstName,
                 last_name: lastName,
                 email,
-                phone,
+                phone_number: "+" + phone,
                 state,
-                lga,
+                local_govt: lga,
                 photo: base64Image
             },
                 {
